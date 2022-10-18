@@ -21,7 +21,7 @@ export const pokemonsReducer = (state = initialState, action) => {
 
       newPokemonList[currentPokemonIndex].favorite = 
       !newPokemonList[currentPokemonIndex].favorite;
-      
+
       return {...state, pokemons: newPokemonList}
     case SET_LOADING:
       return {...state, loading: action.payload};
