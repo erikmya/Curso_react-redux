@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Col, Spin } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import Searcher from './components/Searcher';
 import PokemonList from './PokemonList';
 import logo from './components/statics/logo.svg';
@@ -11,8 +11,25 @@ import './App.css';
 
 function App() {
 
-const pokemons = useSelector((state) => state.get('pokemons')).toJS();
-const loading = useSelector((state) => state.get('loading'));
+const pokemons = useSelector((state) => state.getIn(['data', 'pokemons'], shallowEqual)).toJS();
+/**
+ * === 
+ * 1 === 1 // true
+ * 1 === '1' // false
+ * 
+ * const a = {
+ * b: 1
+ * c: 2
+ * }
+ * 
+ * const b = a;
+ * 
+ * a === b // true
+ * 
+ * const c = {...a}
+ * a === c // false
+ */
+const loading = useSelector((state) => state.getIn(['ui', 'loading']));
 const dispatch = useDispatch();
 
   useEffect(() => {
