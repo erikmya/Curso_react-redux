@@ -4,14 +4,15 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import Searcher from './components/Searcher';
 import PokemonList from './PokemonList';
 import logo from './components/statics/logo.svg';
-import { getPokemons } from './api';
-import { getPokemonsWithDetails, setLoading } from './actions';
+import { fetchPokemonWithDetails } from './slices/dataSlice';
 import './App.css';
+
 
 
 function App() {
 
-const pokemons = useSelector((state) => state.getIn(['data', 'pokemons'], shallowEqual)).toJS();
+const pokemons = useSelector((state) => 
+  state.data.pokemons, shallowEqual);
 /**
  * === 
  * 1 === 1 // true
@@ -29,20 +30,13 @@ const pokemons = useSelector((state) => state.getIn(['data', 'pokemons'], shallo
  * const c = {...a}
  * a === c // false
  */
-const loading = useSelector((state) => state.getIn(['ui', 'loading']));
+//const loading = useSelector((state) => state.ui.loading;
+const loading = false;
+
 const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchPokemons = async () => {
-      dispatch(setLoading(true));
-      const pokemonsRes = await getPokemons();
-      dispatch(getPokemonsWithDetails(pokemonsRes));
-      dispatch(setLoading(false));
-    };
-
-  
-
-    fetchPokemons();
+    dispatch(fetchPokemonWithDetails());
   }, []);
 
   return ( 
